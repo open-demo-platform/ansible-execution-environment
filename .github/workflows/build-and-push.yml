@@ -11,8 +11,8 @@ name: Build and Publish EE (Podman)
 env:
   # Change this to your Quay repository path: <org>/<repo>
   # Or override via: TARGET_HUB, TARGET_NAME, TARGET_TAG
-  TARGET_NAME: ${{ secrets.TARGET_NAME || 'ansible-ee-minimal' }}
-  TARGET_TAG: ${{ secrets.TARGET_TAG || 'v5' }}
+  TARGET_NAME: ${{ secrets.TARGET_NAME || 'open-demo-platform-ee' }}
+  TARGET_TAG: ${{ secrets.TARGET_TAG || 'latest' }}
   TARGET_HUB: ${{ secrets.TARGET_HUB || 'quay.io' }}
   CONTAINER_ENGINE: podman
 
