@@ -102,6 +102,33 @@ Fix:
 
 Reference: [Red Hat Solution 7116301](https://access.redhat.com/solutions/7116301)
 
+### ERROR: No matching distribution found for systemd-python
+
+**Symptom:** Build fails during pip install with:
+```
+ERROR: Could not find a version that satisfies the requirement systemd-python
+ModuleNotFoundError: No module named 'setuptools'
+```
+
+**Cause:** The `systemd-python` package is **NOT available on PyPI**. It's only distributed as a system package (`python3-systemd`) via dnf/yum on RHEL systems. Collections like `ansible.eda` or tools like `ara` may require it for systemd journal integration.
+
+**Fix:**
+1. **Remove** `systemd-python` from `files/requirements.txt` (pip requirements)
+2. **Add** to `files/bindep.txt` (system package requirements):
+   ```
+   python3-systemd [platform:rhel-9]  # Required by ansible.eda - NOT available via pip
+   ```
+3. Rebuild: `make clean && make build`
+
+**Why this works:** 
+- `ansible-builder` installs `python3-systemd` as a system RPM package via dnf
+- No more pip trying to build systemd-python from unmaintained source
+- The package includes proper C extensions and systemd library bindings
+
+**References:**
+- [GitHub Issue: ansible/event-driven-ansible #153](https://github.com/ansible/event-driven-ansible/issues/153)
+- [Red Hat Developer: Managing Python Dependencies in EE](https://developers.redhat.com/articles/2025/01/27/how-manage-python-dependencies-ansible-execution-environments)
+
 ### Pip cannot find ansible-core version
 
 Cause: Base image Python version may not match latest ansible-core.

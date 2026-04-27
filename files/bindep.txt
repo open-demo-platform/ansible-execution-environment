@@ -19,6 +19,7 @@ unzip [platform:rpm]
 tar   [platform:rpm]
 sudo  [platform:rpm]
 python3-pip [platform:rpm]
+python3-systemd [platform:rhel-9]  # Required by ansible.eda collection - NOT available via pip
 
 # (Optional) Windows Authentication - Kerberos
 # https://docs.ansible.com/automation-controller/latest/html/administration/kerberos_auth.html

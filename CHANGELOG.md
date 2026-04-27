@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed (Post-v1.1.0 Release)
+- **systemd-python build failures** (2026-04-27)
+  - **Root Cause**: systemd-python is NOT available on PyPI - only as system package via dnf/yum
+  - Collections like `ansible.eda` and `ara` require systemd journal integration
+  - Build failed with: `ModuleNotFoundError: No module named 'setuptools'`
+  - **Solution**: Moved systemd-python from pip requirements to system package requirements
+    - Added `python3-systemd [platform:rhel-9]` to `files/bindep.txt`
+    - ansible-builder now installs as RPM package during build
+    - Re-enabled `ansible.eda`, `ansible.platform`, and `ara` collections
+  - **References**: 
+    - [GitHub: ansible/event-driven-ansible #153](https://github.com/ansible/event-driven-ansible/issues/153)
+    - [Red Hat Developer: Managing Python Dependencies in EE](https://developers.redhat.com/articles/2025/01/27/how-manage-python-dependencies-ansible-execution-environments)
+  - **Documentation**: Added troubleshooting guide in `docs/how-to/troubleshoot-ee-builds.md`
 - Documentation build failures in strict mode (commit f99676d, fc8a4a0)
   - Fixed broken links in `release-process.md` referencing `SECURITY_CHECKLIST.md` outside docs directory
   - Copied `SECURITY_CHECKLIST.md` to docs/ directory and updated all relative links

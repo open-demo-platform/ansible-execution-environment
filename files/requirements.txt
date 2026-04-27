@@ -12,7 +12,7 @@ setuptools>=50.0
 # https://github.com/ansible/ansible-builder/issues/323
 
 # Reporting - ARA plugin: https://ara.recordsansible.org/blog/2021/12/23/recording-ansible-playbooks-from-awx-with-ara/
-ara
+ara  # systemd-python dependency now handled via bindep.txt
 
 # (Optional) Windows automation - connectivity requirements https://docs.ansible.com/ansible/latest/user_guide/windows_winrm.html#what-is-winrm
 #pywinrm>=0.3.0
